@@ -1,0 +1,127 @@
+/* Prism — holding page
+   Type: Geist Mono for the headline, same face for the subtitle.
+   Green matches the current logo mark (#64FA53).
+   Canvas: tesseract's dark grey with the same tiled noise grain. */
+
+@font-face {
+  font-family: 'Geist Mono';
+  font-weight: 100 900;
+  font-style: normal;
+  src: url('assets/fonts/geist-mono/GeistMono[wght].woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Geist Mono';
+  font-weight: 100 900;
+  font-style: italic;
+  src: url('assets/fonts/geist-mono/GeistMono-Italic[wght].woff2') format('woff2');
+  font-display: swap;
+}
+
+html {
+  background-color: #0f0f0f;
+  background-image: url('assets/noise.png');
+  background-position: 0 0;
+  background-size: 200px 200px;
+  background-repeat: repeat;
+  background-attachment: fixed;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  color: #ffffff;
+  font-family: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+main {
+  width: 100%;
+  max-width: 720px;
+  text-align: center;
+  /* one gentle rise on load */
+  animation: settle 900ms cubic-bezier(0.22, 0.61, 0.36, 1) both;
+}
+
+h1 {
+  margin: 0 0 1.25rem;
+  font-family: inherit;
+  font-size: clamp(1.75rem, 5.5vw, 3.25rem);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #64fa53;
+  /* a whisper of the mark's own glow, not a neon sign */
+  text-shadow: 0 0 32px rgba(100, 250, 83, 0.22);
+  text-wrap: balance;
+}
+
+p {
+  margin: 0 auto;
+  max-width: 54ch;
+  font-size: clamp(0.9375rem, 1.5vw, 1.0625rem);
+  font-weight: 400;
+  line-height: 1.75;
+  color: #c6c6c6;
+  text-wrap: pretty;
+}
+
+/* Pointer sheen: a soft prism-tinted light that drifts with the cursor.
+   Pure decoration — it never intercepts input. */
+.sheen {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0;
+  transition: opacity 1200ms ease;
+  background:
+    radial-gradient(
+      340px circle at var(--sheen-x, 50%) var(--sheen-y, 50%),
+      rgba(100, 250, 83, 0.09),
+      rgba(100, 250, 83, 0.035) 38%,
+      transparent 68%
+    );
+  mix-blend-mode: screen;
+}
+
+.sheen.is-live {
+  opacity: 1;
+}
+
+main {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main {
+    animation: none;
+  }
+  .sheen {
+    display: none;
+  }
+}
